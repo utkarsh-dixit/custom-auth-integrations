@@ -35,7 +35,6 @@ class GetHerokuAppInfo(Action):
         app_id = request.app_id
         app_info_url = f"https://api.heroku.com/apps/{app_id}"
 
-        # Get app information
         app_info_response = requests.get(app_info_url, headers=headers)
         if app_info_response.status_code != 200:
             return HerokuAppInfoResponse(success=False, app_info=app_info_response.json())
@@ -92,7 +91,6 @@ class CreateHerokuApp(Action):
         if request.personal:
             app_data["personal"] = request.personal
 
-        # Create app
         create_app_response = requests.post(create_app_url, headers=headers, data=json.dumps(app_data))
         if create_app_response.status_code != 201:
             return CreateHerokuAppResponse(success=False, app_info=create_app_response.json())
@@ -129,7 +127,6 @@ class GetHerokuAppList(Action):
         headers = authorisation_data["headers"]
         app_list_url = "https://api.heroku.com/apps"
 
-        # Get app list
         app_list_response = requests.get(app_list_url, headers=headers)
         if app_list_response.status_code != 200:
             return GetHerokuAppListResponse(success=False, app_list=app_list_response.json())
@@ -167,7 +164,6 @@ class DeleteHerokuApp(Action):
         app_id = request.app_id
         delete_app_url = f"https://api.heroku.com/apps/{app_id}"
 
-        # Delete app
         delete_app_response = requests.delete(delete_app_url, headers=headers)
         if delete_app_response.status_code != 200:
             return DeleteHerokuAppResponse(success=False, message=json.dumps(delete_app_response.json()))
@@ -178,6 +174,7 @@ class DeleteHerokuApp(Action):
         )
 
 # Actions related to account information
+
 class GetAccountInfoRequest(BaseModel): 
     pass
 
@@ -205,7 +202,6 @@ class GetAccountInfo(Action):
         headers = authorisation_data["headers"]
         account_info_url = "https://api.heroku.com/account"
 
-        # Get account information
         account_info_response = requests.get(account_info_url, headers=headers)
         if account_info_response.status_code != 200:
             return GetAccountInfoResponse(success=False, account_info=account_info_response.json())
@@ -252,7 +248,6 @@ class UpdateAccountInfo(Action):
         if request.name:
             account_data["name"] = request.name
 
-        # Update account information
         update_account_info_response = requests.patch(update_account_info_url, headers=headers, data=json.dumps(account_data))
         if update_account_info_response.status_code != 200:
             return UpdateAccountInfoResponse(success=False, account_info=update_account_info_response.json())
@@ -262,7 +257,157 @@ class UpdateAccountInfo(Action):
             account_info=update_account_info_response.json()
         )
     
+class AccountDelinquencyInfoRequest(BaseModel):
+    pass
 
+class AccountDelinquencyInfoResponse(BaseModel):
+    success: bool = Field(..., description="Indicates whether the account delinquency information retrieval was successful.")
+    delinquency_info: dict = Field(..., description="The full response data returned by the Heroku API.")
+
+class GetAccountDelinquencyInfo(Action):
+    """
+    Get Heroku Account Delinquency Information
+    """
+    @property
+    def display_name(self) -> str:
+        return "Get Heroku Account Delinquency Information"
+
+    @property
+    def request_schema(self) -> BaseModel:
+        return AccountDelinquencyInfoRequest
+    
+    @property
+    def response_schema(self) -> BaseModel:
+        return AccountDelinquencyInfoResponse
+    
+    def execute(self, authorisation_data: dict, request: AccountDelinquencyInfoRequest) -> AccountDelinquencyInfoResponse:
+        headers = authorisation_data["headers"]
+        delinquency_info_url = "https://api.heroku.com/account/delinquency"
+
+        delinquency_info_response = requests.get(delinquency_info_url, headers=headers)
+        if delinquency_info_response.status_code != 200:
+            return AccountDelinquencyInfoResponse(success=False, delinquency_info=delinquency_info_response.json())
+
+        return AccountDelinquencyInfoResponse(
+            success=True,
+            delinquency_info=delinquency_info_response.json()
+        )
+
+# GET /account/features/{account_feature_id_or_name}
+class AccountFeatureInfoRequest(BaseModel):
+    account_feature_id_or_name: str = Field(..., description="The unique identifier or name of the account feature.")
+
+class AccountFeatureInfoResponse(BaseModel):
+    success: bool = Field(..., description="Indicates whether the account feature information retrieval was successful.")
+    feature_info: dict = Field(..., description="The full response data returned by the Heroku API.")
+
+class GetAccountFeatureInfo(Action):
+    """
+    Get Heroku Account Feature Information
+    """
+    @property
+    def display_name(self) -> str:
+        return "Get Heroku Account Feature Information"
+
+    @property
+    def request_schema(self) -> BaseModel:
+        return AccountFeatureInfoRequest
+    
+    @property
+    def response_schema(self) -> BaseModel:
+        return AccountFeatureInfoResponse
+    
+    def execute(self, authorisation_data: dict, request: AccountFeatureInfoRequest) -> AccountFeatureInfoResponse:
+        headers = authorisation_data["headers"]
+        feature_id_or_name = request.account_feature_id_or_name
+        feature_info_url = f"https://api.heroku.com/account/features/{feature_id_or_name}"
+
+        feature_info_response = requests.get(feature_info_url, headers=headers)
+        if feature_info_response.status_code != 200:
+            return AccountFeatureInfoResponse(success=False, feature_info=feature_info_response.json())
+
+        return AccountFeatureInfoResponse(
+            success=True,
+            feature_info=feature_info_response.json()
+        )
+    
+class AccountFeatureListRequest(BaseModel):
+    pass
+
+class AccountFeatureListResponse(BaseModel):
+    success: bool = Field(..., description="Indicates whether the account feature list retrieval was successful.")
+    feature_list: list = Field(..., description="The full response data returned by the Heroku API.")
+
+class GetAccountFeatureList(Action):
+    """
+    Get Heroku Account Feature List
+    """
+    @property
+    def display_name(self) -> str:
+        return "Get Heroku Account Feature List"
+
+    @property
+    def request_schema(self) -> BaseModel:
+        return AccountFeatureListRequest
+    
+    @property
+    def response_schema(self) -> BaseModel:
+        return AccountFeatureListResponse
+    
+    def execute(self, authorisation_data: dict, request: AccountFeatureListRequest) -> AccountFeatureListResponse:
+        headers = authorisation_data["headers"]
+        feature_list_url = "https://api.heroku.com/account/features"
+
+        feature_list_response = requests.get(feature_list_url, headers=headers)
+        if feature_list_response.status_code != 200:
+            return AccountFeatureListResponse(success=False, feature_list=feature_list_response.json())
+
+        return AccountFeatureListResponse(
+            success=True,
+            feature_list=feature_list_response.json()
+        )
+    
+class AccountFeatureUpdateRequest(BaseModel):
+    account_feature_id_or_name: str = Field(..., description="The unique identifier or name of the account feature.")
+    enabled: bool = Field(..., description="Indicates whether the account feature is enabled.")
+
+class AccountFeatureUpdateResponse(BaseModel):
+    success: bool = Field(..., description="Indicates whether the account feature update was successful.")
+    feature_info: dict = Field(..., description="The full response data returned by the Heroku API.")
+
+class UpdateAccountFeature(Action):
+    """
+    Update Heroku Account Feature
+    """
+    @property
+    def display_name(self) -> str:
+        return "Update Heroku Account Feature"
+
+    @property
+    def request_schema(self) -> BaseModel:
+        return AccountFeatureUpdateRequest
+    
+    @property
+    def response_schema(self) -> BaseModel:
+        return AccountFeatureUpdateResponse
+    
+    def execute(self, authorisation_data: dict, request: AccountFeatureUpdateRequest) -> AccountFeatureUpdateResponse:
+        headers = authorisation_data["headers"]
+        feature_id_or_name = request.account_feature_id_or_name
+        update_feature_url = f"https://api.heroku.com/account/features/{feature_id_or_name}"
+
+        feature_data = {
+            "enabled": request.enabled
+        }
+
+        update_feature_response = requests.patch(update_feature_url, headers=headers, data=json.dumps(feature_data))
+        if update_feature_response.status_code != 200:
+            return AccountFeatureUpdateResponse(success=False, feature_info=update_feature_response.json())
+
+        return AccountFeatureUpdateResponse(
+            success=True,
+            feature_info=update_feature_response.json()
+        )
 
 # Heroku Tools
 class HerokuTool(Tool):
@@ -276,7 +421,11 @@ class HerokuTool(Tool):
             GetHerokuAppList,
             CreateHerokuApp,
             DeleteHerokuApp,
-            UpdateAccountInfo
+            UpdateAccountInfo,
+            GetAccountDelinquencyInfo,
+            GetAccountFeatureInfo,
+            GetAccountFeatureList,
+            UpdateAccountFeature
         ]
 
     def triggers(self) -> list:
