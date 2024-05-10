@@ -410,7 +410,7 @@ class UpdateAccountFeature(Action):
         )
 
 # Heroku Tools
-class heroku(Tool):
+class Heroku1(Tool):
     """
     Connect to Heroku
     """
@@ -431,4 +431,4 @@ class heroku(Tool):
     def triggers(self) -> list:
         return []
 
-__all__ = ["heroku"]
+__all__ = ["Heroku1"]
