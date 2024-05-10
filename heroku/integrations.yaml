@@ -1,5 +1,5 @@
-name: Heroku1
-unique_key: heroku1
+name: Heroku3
+unique_key: heroku3
 description: Heroku is a cloud platform that lets companies build, deliver, monitor and scale apps.
 logo: https://raw.githubusercontent.com/SamparkAI/open-logos/d4986b2f29b4b78f3dcbf30ec280556dc6e7549e/heroku.svg
 categories: [productivity]
