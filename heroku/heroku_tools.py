@@ -1,7 +1,7 @@
 import requests
 from pydantic import BaseModel, Field
 from composio_tools import Action, Tool
-from typing import Optional
+from typing import Optional, Type
 import requests
 import base64
 import json
@@ -23,11 +23,11 @@ class GetHerokuAppInfo(Action):
         return "Get Heroku App Information"
 
     @property
-    def request_schema(self) -> BaseModel:
+    def request_schema(self) -> Type[BaseModel]:
         return HerokuAppInfoRequest
     
     @property
-    def response_schema(self) -> BaseModel:
+    def response_schema(self) -> Type[BaseModel]:
         return HerokuAppInfoResponse
     
     def execute(self, authorisation_data: dict, request: HerokuAppInfoRequest) -> HerokuAppInfoResponse:
@@ -66,11 +66,11 @@ class CreateHerokuApp(Action):
         return "Create Heroku App"
 
     @property
-    def request_schema(self) -> BaseModel:
+    def request_schema(self) -> Type[BaseModel]:
         return CreateHerokuAppRequest
     
     @property
-    def response_schema(self) -> BaseModel:
+    def response_schema(self) -> Type[BaseModel]:
         return CreateHerokuAppResponse
     
     def execute(self, authorisation_data: dict, request: CreateHerokuAppRequest) -> CreateHerokuAppResponse:
@@ -89,7 +89,7 @@ class CreateHerokuApp(Action):
         if request.team:
             app_data["team"] = request.team
         if request.personal:
-            app_data["personal"] = request.personal
+            app_data["personal"] = str(request.personal).lower()
 
         create_app_response = requests.post(create_app_url, headers=headers, data=json.dumps(app_data))
         if create_app_response.status_code != 201:
@@ -116,11 +116,11 @@ class GetHerokuAppList(Action):
         return "Get Heroku App List"
 
     @property
-    def request_schema(self) -> BaseModel:
+    def request_schema(self) -> Type[BaseModel]:
         return GetHerokuAppListRequest
     
     @property
-    def response_schema(self) -> BaseModel:
+    def response_schema(self) -> Type[BaseModel]:
         return GetHerokuAppListResponse
     
     def execute(self, authorisation_data: dict, request: GetHerokuAppListRequest) -> GetHerokuAppListResponse:
@@ -152,11 +152,11 @@ class DeleteHerokuApp(Action):
         return "Delete Heroku App"
 
     @property
-    def request_schema(self) -> BaseModel:
+    def request_schema(self) -> Type[BaseModel]:
         return DeleteHerokuAppRequest
     
     @property
-    def response_schema(self) -> BaseModel:
+    def response_schema(self) -> Type[BaseModel]:
         return DeleteHerokuAppResponse
     
     def execute(self, authorisation_data: dict, request: DeleteHerokuAppRequest) -> DeleteHerokuAppResponse:
@@ -191,11 +191,11 @@ class GetAccountInfo(Action):
         return "Get Heroku Account Information"
 
     @property
-    def request_schema(self) -> BaseModel:
+    def request_schema(self) -> Type[BaseModel]:
         return GetAccountInfoRequest
     
     @property
-    def response_schema(self) -> BaseModel:
+    def response_schema(self) -> Type[BaseModel]:
         return GetAccountInfoResponse
     
     def execute(self, authorisation_data: dict, request: GetAccountInfoRequest) -> GetAccountInfoResponse:
@@ -229,11 +229,11 @@ class UpdateAccountInfo(Action):
         return "Update Heroku Account Information"
 
     @property
-    def request_schema(self) -> BaseModel:
+    def request_schema(self) -> Type[BaseModel]:
         return UpdateAccountInfoRequest
     
     @property
-    def response_schema(self) -> BaseModel:
+    def response_schema(self) -> Type[BaseModel]:
         return UpdateAccountInfoResponse
     
     def execute(self, authorisation_data: dict, request: UpdateAccountInfoRequest) -> UpdateAccountInfoResponse:
@@ -273,11 +273,11 @@ class GetAccountDelinquencyInfo(Action):
         return "Get Heroku Account Delinquency Information"
 
     @property
-    def request_schema(self) -> BaseModel:
+    def request_schema(self) -> Type[BaseModel]:
         return AccountDelinquencyInfoRequest
     
     @property
-    def response_schema(self) -> BaseModel:
+    def response_schema(self) -> Type[BaseModel]:
         return AccountDelinquencyInfoResponse
     
     def execute(self, authorisation_data: dict, request: AccountDelinquencyInfoRequest) -> AccountDelinquencyInfoResponse:
@@ -310,11 +310,11 @@ class GetAccountFeatureInfo(Action):
         return "Get Heroku Account Feature Information"
 
     @property
-    def request_schema(self) -> BaseModel:
+    def request_schema(self) -> Type[BaseModel]:
         return AccountFeatureInfoRequest
     
     @property
-    def response_schema(self) -> BaseModel:
+    def response_schema(self) -> Type[BaseModel]:
         return AccountFeatureInfoResponse
     
     def execute(self, authorisation_data: dict, request: AccountFeatureInfoRequest) -> AccountFeatureInfoResponse:
@@ -347,11 +347,11 @@ class GetAccountFeatureList(Action):
         return "Get Heroku Account Feature List"
 
     @property
-    def request_schema(self) -> BaseModel:
+    def request_schema(self) -> Type[BaseModel]:
         return AccountFeatureListRequest
     
     @property
-    def response_schema(self) -> BaseModel:
+    def response_schema(self) -> Type[BaseModel]:
         return AccountFeatureListResponse
     
     def execute(self, authorisation_data: dict, request: AccountFeatureListRequest) -> AccountFeatureListResponse:
@@ -384,11 +384,11 @@ class UpdateAccountFeature(Action):
         return "Update Heroku Account Feature"
 
     @property
-    def request_schema(self) -> BaseModel:
+    def request_schema(self) -> Type[BaseModel]:
         return AccountFeatureUpdateRequest
     
     @property
-    def response_schema(self) -> BaseModel:
+    def response_schema(self) -> Type[BaseModel]:
         return AccountFeatureUpdateResponse
     
     def execute(self, authorisation_data: dict, request: AccountFeatureUpdateRequest) -> AccountFeatureUpdateResponse:
@@ -410,7 +410,7 @@ class UpdateAccountFeature(Action):
         )
 
 # Heroku Tools
-class HerokuTool(Tool):
+class heroku(Tool):
     """
     Connect to Heroku
     """
@@ -431,4 +431,4 @@ class HerokuTool(Tool):
     def triggers(self) -> list:
         return []
 
-__all__ = ["HerokuTool"]
+__all__ = ["heroku"]
