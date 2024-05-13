@@ -1,6 +1,6 @@
 import requests
 from pydantic import BaseModel, Field
-from composio_tools import Action, Tool
+from shared.composio_tools.lib.tool import Tool,Action
 from typing import Optional, Type
 import requests
 import base64
