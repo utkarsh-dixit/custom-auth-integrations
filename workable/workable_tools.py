@@ -348,3 +348,5 @@ class Workable(Tool):
     
     def triggers(self) -> list:
         return []
+
+__all__ = ["Workable"]
