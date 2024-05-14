@@ -1,6 +1,6 @@
 import requests
 from pydantic import BaseModel, Field
-from shared.composio_tools.lib.tool import Action, Tool
+from shared.composio_tools.lib import Action, Tool
 from typing import Optional, Type
 import requests
 import base64
@@ -332,9 +332,6 @@ class WorkableAccountAccessAction(Action):
         
 
 class Workable(Tool):
-    """
-    Workable API Tool
-    """
     def actions(self) -> list:
         return [
             WorkableAccountAccessAction,
