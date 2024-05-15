@@ -2,21 +2,13 @@ import requests
 from pydantic import BaseModel, Field
 from shared.composio_tools.lib import Action, Tool
 from typing import Optional, Type
-import requests
-import base64
-import json
 
 class SpecificAccountRequest(BaseModel):
     subdomain: str = Field(..., description="The subdomain of the account")
 
 class SpecificAccountResponse(BaseModel):
     success: bool = Field(..., description="Indicates if the request was successful")
-    id: Optional[str] = Field(..., description="The ID of the account")
-    name: Optional[str] = Field(..., description="The name of the account")
-    subdomain: Optional[str] = Field(..., description="The subdomain of the account")
-    description: Optional[str] = Field(..., description="The description of the account")
-    summary: Optional[str] = Field(..., description="The summary of the account")
-    website_url: Optional[str] = Field(..., description="The website of the account")
+    account_info: Optional[dict] = Field(..., description="The account information")
 
 class GetSpecificAccountAction(Action):
     """
@@ -39,32 +31,16 @@ class GetSpecificAccountAction(Action):
         subdomain = request.subdomain
         url = f"https://www.workable.com/spi/v3/accounts/{subdomain}"
         account_response = requests.get(url, headers=headers)
+        account = account_response.json()
         if account_response.status_code != 200:
             return SpecificAccountResponse (
                 success=False,
-                id=None,
-                name=None,
-                subdomain=None,
-                description=None,
-                summary=None,
-                website_url=None
+                account_info=account
             )
         
-        account = account_response.json()
-        account_id = account["id"]
-        account_name = account["name"]
-        account_subdomain = account["subdomain"]
-        account_description = account["description"]
-        account_summary = account["summary"]
-        account_website_url = account["website_url"]
         return SpecificAccountResponse (
             success=True,
-            id=account_id,
-            name=account_name,
-            subdomain=account_subdomain,
-            description=account_description,
-            summary=account_summary,
-            website_url=account_website_url
+            account_info=account
         )
     
 class MembersListRequest(BaseModel):
@@ -345,5 +321,5 @@ class Workable(Tool):
     
     def triggers(self) -> list:
         return []
-
+    
 __all__ = ["Workable"]
