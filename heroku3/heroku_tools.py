@@ -31,7 +31,7 @@ class GetHerokuAppInfo(Action):
         return HerokuAppInfoResponse
     
     def execute(self, request: HerokuAppInfoRequest, authorisation_data: dict) -> HerokuAppInfoResponse:
-        headers = authorisation_data.get('headers', {})
+        headers = authorisation_data["headers"]
         app_id = request.app_id
         app_info_url = f"https://api.heroku.com/apps/{app_id}"
 
@@ -75,7 +75,7 @@ class CreateHerokuApp(Action):
         return CreateHerokuAppResponse
     
     def execute(self, request: CreateHerokuAppRequest, authorisation_data: dict) -> CreateHerokuAppResponse:
-        headers = authorisation_data.get('headers', {})
+        headers = authorisation_data["headers"]
         create_app_url = "https://api.heroku.com/apps"
         app_data = {
             "name": request.app_name,
@@ -125,7 +125,7 @@ class GetHerokuAppList(Action):
         return GetHerokuAppListResponse
     
     def execute(self, request: GetHerokuAppListRequest, authorisation_data: dict) -> GetHerokuAppListResponse:
-        headers = authorisation_data.get('headers', {})
+        headers = authorisation_data["headers"]
         app_list_url = "https://api.heroku.com/apps"
 
         app_list_response = requests.get(app_list_url, headers=headers)
@@ -142,7 +142,7 @@ class DeleteHerokuAppRequest(BaseModel):
 
 class DeleteHerokuAppResponse(BaseModel):
     success: bool = Field(..., description="Indicates whether the app deletion was successful.")
-    message: str = Field(..., description="The message returned by the Heroku API.")
+    message: dict = Field(..., description="The message returned by the Heroku API.")
 
 class DeleteHerokuApp(Action):
     """
@@ -161,7 +161,7 @@ class DeleteHerokuApp(Action):
         return DeleteHerokuAppResponse
     
     def execute(self, request: DeleteHerokuAppRequest, authorisation_data: dict) -> DeleteHerokuAppResponse:
-        headers = authorisation_data.get('headers', {})
+        headers = authorisation_data["headers"]
         app_id = request.app_id
         delete_app_url = f"https://api.heroku.com/apps/{app_id}"
 
@@ -199,8 +199,8 @@ class GetAccountInfo(Action):
     def response_schema(self) -> BaseModel:
         return GetAccountInfoResponse
     
-    def execute(self, authorisation_data: dict) -> GetAccountInfoResponse:
-        headers = authorisation_data.get('headers', {})
+    def execute(self, request: GetAccountInfoRequest, authorisation_data: dict) -> GetAccountInfoResponse:
+        headers = authorisation_data["headers"]
         account_info_url = "https://api.heroku.com/account"
 
         account_info_response = requests.get(account_info_url, headers=headers)
@@ -238,7 +238,7 @@ class UpdateAccountInfo(Action):
         return UpdateAccountInfoResponse
     
     def execute(self, request: UpdateAccountInfoRequest, authorisation_data: dict) -> UpdateAccountInfoResponse:
-        headers = authorisation_data.get('headers', {})
+        headers = authorisation_data["headers"]
         update_account_info_url = "https://api.heroku.com/account"
 
         account_data = {}
@@ -282,7 +282,7 @@ class GetAccountDelinquencyInfo(Action):
         return AccountDelinquencyInfoResponse
     
     def execute(self, request: AccountDelinquencyInfoRequest, authorisation_data: dict) -> AccountDelinquencyInfoResponse:
-        headers = authorisation_data.get('headers', {})
+        headers = authorisation_data["headers"]
         delinquency_info_url = "https://api.heroku.com/account/delinquency"
 
         delinquency_info_response = requests.get(delinquency_info_url, headers=headers)
@@ -319,7 +319,7 @@ class GetAccountFeatureInfo(Action):
         return AccountFeatureInfoResponse
     
     def execute(self, request: AccountFeatureInfoRequest, authorisation_data: dict) -> AccountFeatureInfoResponse:
-        headers = authorisation_data.get('headers', {})
+        headers = authorisation_data["headers"]
         feature_id_or_name = request.account_feature_id_or_name
         feature_info_url = f"https://api.heroku.com/account/features/{feature_id_or_name}"
 
@@ -356,7 +356,7 @@ class GetAccountFeatureList(Action):
         return AccountFeatureListResponse
     
     def execute(self, request: AccountFeatureListRequest, authorisation_data: dict) -> AccountFeatureListResponse:
-        headers = authorisation_data.get('headers', {})
+        headers = authorisation_data["headers"]
         feature_list_url = "https://api.heroku.com/account/features"
 
         feature_list_response = requests.get(feature_list_url, headers=headers)
@@ -393,7 +393,7 @@ class UpdateAccountFeature(Action):
         return AccountFeatureUpdateResponse
     
     def execute(self, request: AccountFeatureUpdateRequest, authorisation_data: dict) -> AccountFeatureUpdateResponse:
-        headers = authorisation_data.get('headers', {})
+        headers = authorisation_data["headers"]
         feature_id_or_name = request.account_feature_id_or_name
         update_feature_url = f"https://api.heroku.com/account/features/{feature_id_or_name}"
 
