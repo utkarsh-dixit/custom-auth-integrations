@@ -414,16 +414,7 @@ class Heroku3(Tool):
     """
     def actions(self) -> list:
         return [
-            GetHerokuAppInfo,
-            GetAccountInfo,
-            GetHerokuAppList,
-            CreateHerokuApp,
-            DeleteHerokuApp,
-            UpdateAccountInfo,
-            GetAccountDelinquencyInfo,
-            GetAccountFeatureInfo,
-            GetAccountFeatureList,
-            UpdateAccountFeature
+            GetAccountInfo
         ]
 
     def triggers(self) -> list:
