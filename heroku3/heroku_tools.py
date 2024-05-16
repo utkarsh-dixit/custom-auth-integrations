@@ -191,11 +191,11 @@ class GetAccountInfo(Action):
         return "Get Heroku Account Information"
 
     @property
-    def request_schema(self) -> Type[BaseModel]:
+    def request_schema(self) -> BaseModel:
         return GetAccountInfoRequest
     
     @property
-    def response_schema(self) -> Type[BaseModel]:
+    def response_schema(self) -> BaseModel:
         return GetAccountInfoResponse
     
     def execute(self, authorisation_data: dict) -> GetAccountInfoResponse:
