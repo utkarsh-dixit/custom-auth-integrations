@@ -1,10 +1,7 @@
 import requests
 from pydantic import BaseModel, Field
-from composio_tools import Tool,Action
+from shared.composio_tools.lib import Tool,Action
 from typing import Optional, Type
-import requests
-import base64
-import json
 
 # Actions of Heroku Apps
 class HerokuAppInfoRequest(BaseModel):
