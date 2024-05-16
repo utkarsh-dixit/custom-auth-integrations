@@ -127,7 +127,7 @@ class GetHerokuAppList(Action):
 
         app_list_response = requests.get(app_list_url, headers=headers)
         if app_list_response.status_code != 200:
-            return GetHerokuAppListResponse(success=False, app_list=app_list_response.json())
+            return GetHerokuAppListResponse(success=False, app_list=[])
 
         return GetHerokuAppListResponse(
             success=True,
@@ -358,7 +358,7 @@ class GetAccountFeatureList(Action):
 
         feature_list_response = requests.get(feature_list_url, headers=headers)
         if feature_list_response.status_code != 200:
-            return AccountFeatureListResponse(success=False, feature_list=feature_list_response.json())
+            return AccountFeatureListResponse(success=False, feature_list=[])
 
         return AccountFeatureListResponse(
             success=True,
