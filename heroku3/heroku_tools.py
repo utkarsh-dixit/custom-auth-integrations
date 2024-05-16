@@ -198,7 +198,7 @@ class GetAccountInfo(Action):
     def response_schema(self) -> Type[BaseModel]:
         return GetAccountInfoResponse
     
-    def execute(self, request: GetAccountInfoRequest, authorisation_data: dict) -> GetAccountInfoResponse:
+    def execute(self, authorisation_data: dict) -> GetAccountInfoResponse:
         headers = authorisation_data["headers"]
         account_info_url = "https://api.heroku.com/account"
 
