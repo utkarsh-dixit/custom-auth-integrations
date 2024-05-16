@@ -92,7 +92,7 @@ class CreateHerokuApp(Action):
         if request.personal:
             app_data["personal"] = str(request.personal).lower()
 
-        create_app_response = requests.post(create_app_url, headers=headers, data=json.dumps(app_data))
+        create_app_response = requests.post(create_app_url, headers=headers, json=app_data)
         if create_app_response.status_code != 201:
             return CreateHerokuAppResponse(success=False, app_info=create_app_response.json())
 
@@ -167,7 +167,7 @@ class DeleteHerokuApp(Action):
 
         delete_app_response = requests.delete(delete_app_url, headers=headers)
         if delete_app_response.status_code != 200:
-            return DeleteHerokuAppResponse(success=False, message=json.dumps(delete_app_response.json()))
+            return DeleteHerokuAppResponse(success=False, message=delete_app_response.json())
 
         return DeleteHerokuAppResponse(
             success=True,
@@ -249,7 +249,7 @@ class UpdateAccountInfo(Action):
         if request.name:
             account_data["name"] = request.name
 
-        update_account_info_response = requests.patch(update_account_info_url, headers=headers, data=json.dumps(account_data))
+        update_account_info_response = requests.patch(update_account_info_url, headers=headers, json=account_data)
         if update_account_info_response.status_code != 200:
             return UpdateAccountInfoResponse(success=False, account_info=update_account_info_response.json())
 
@@ -401,7 +401,7 @@ class UpdateAccountFeature(Action):
             "enabled": request.enabled
         }
 
-        update_feature_response = requests.patch(update_feature_url, headers=headers, data=json.dumps(feature_data))
+        update_feature_response = requests.patch(update_feature_url, headers=headers, json=feature_data)
         if update_feature_response.status_code != 200:
             return AccountFeatureUpdateResponse(success=False, feature_info=update_feature_response.json())
 
